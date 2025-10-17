@@ -1,0 +1,133 @@
+      {/* Pricing Section */}
+      <section id="precios" className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-sans text-3xl sm:text-4xl font-bold text-foreground mb-4 tracking-tight">
+              Modalidades de Trabajo
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Elige la modalidad que mejor se adapte a tus necesidades y objetivos
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {modalitiesLoading ? (
+              // Loading skeletons
+              Array.from({ length: 2 }).map((_, index) => (
+                <div key={index} className="rounded-xl bg-card border border-border/50 overflow-hidden">
+                  <div className="p-6 space-y-4">
+                    <div className="h-8 bg-muted animate-pulse rounded w-3/4"></div>
+                    <div className="h-4 bg-muted animate-pulse rounded w-full"></div>
+                    <div className="h-6 bg-muted animate-pulse rounded w-1/2"></div>
+                    <div className="space-y-2">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="h-4 bg-muted animate-pulse rounded"></div>
+                      ))}
+                    </div>
+                    <div className="h-12 bg-muted animate-pulse rounded"></div>
+                  </div>
+                </div>
+              ))
+            ) : modalitiesError ? (
+              <div className="col-span-full text-center text-red-500">
+                Error al cargar las modalidades. Por favor, intente más tarde.
+              </div>
+            ) : workModalities && workModalities.length > 0 ? (
+              // Dynamic modalities from database
+              workModalities.map((modality: any, index: number) => {
+                const features = Array.isArray(modality.features) ? modality.features : JSON.parse(modality.features || '[]');
+
+                return (
+                  <motion.div
+                    key={modality.id}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                  >
+                    <Card className={`h-full hover:border-primary/50 transition-all duration-300 hover:shadow-xl relative ${modality.isPopular ? 'border-2 border-primary' : ''}`}>
+                      {/* Popular Badge */}
+                      {modality.isPopular && (
+                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                          <Badge className="bg-primary text-primary-foreground">
+                            {modality.badgeText || 'Más Popular'}
+                          </Badge>
+                        </div>
+                      )}
+
+                      <CardHeader className={modality.isPopular ? "pt-8" : ""}>
+                        <div className="flex items-center justify-between mb-4">
+                          <CardTitle className="text-2xl">{modality.title}</CardTitle>
+                          {modality.subtitle && (
+                            <Badge variant={modality.badgeVariant === 'default' ? 'outline' : 'secondary'}
+                                   className={modality.isPopular ? "border-primary text-primary" : ""}>
+                              {modality.subtitle}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-muted-foreground">
+                          {modality.description}
+                        </p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="mb-6">
+                          <div className="text-3xl font-bold text-primary mb-2">
+                            {modality.priceText}
+                            {modality.priceSubtitle && (
+                              <span className="text-lg font-normal text-muted-foreground ml-2">
+                                {modality.priceSubtitle.includes('USD') ? modality.priceSubtitle : `${modality.priceSubtitle}`}
+                              </span>
+                            )}
+                          </div>
+                          {modality.priceSubtitle && !modality.priceSubtitle.includes('USD') && (
+                            <p className="text-sm text-muted-foreground">{modality.priceSubtitle}</p>
+                          )}
+                        </div>
+
+                        <ul className="space-y-4 mb-8">
+                          {features.map((feature: string, featureIndex: number) => (
+                            <li key={featureIndex} className="flex items-start">
+                              {modality.isPopular ? (
+                                <Star className="h-5 w-5 text-primary mt-0.5 mr-3 flex-shrink-0" />
+                              ) : (
+                                <CheckCircle className="h-5 w-5 text-primary mt-0.5 mr-3 flex-shrink-0" />
+                              )}
+                              <span className="text-foreground">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <Button
+                          className="w-full bg-primary text-white hover:bg-primary/90 font-semibold shadow-md"
+                          onClick={() => scrollToSection('contacto')}
+                          data-testid={`button-contact-${modality.title.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
+                          {modality.buttonText}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })
+            ) : (
+              // Fallback to original hardcoded modalities if no data
+              <>
+                <motion.div
+                  initial={{ opacity: 0, x: -40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="h-full hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+                    <CardHeader>
+                      <div className="flex items-center justify-between mb-4">
+                        <CardTitle className="text-2xl">Compra Completa</CardTitle>
+                        <Badge variant="secondary">Tradicional</Badge>
+                      </div>
+                      <p className="text-muted-foreground">
