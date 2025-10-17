@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict F1hLJMteGZwch8JVwGqw3TEpJEcQPBh24vQtlfakeZ8qHQTHCSk2dl4tpRjAbOA
+\restrict W6NfRJlp5w6Zgqpl2CgWcNoPKUXdw3kXiagfjs3QaCiYyRsvCfkBnOWdztQloIy
 
 -- Dumped from database version 17.5 (6bc9ef8)
 -- Dumped by pg_dump version 18.0 (Ubuntu 18.0-1.pgdg24.04+3)
@@ -479,6 +479,44 @@ ALTER SEQUENCE public.partners_id_seq OWNER TO neondb_owner;
 --
 
 ALTER SEQUENCE public.partners_id_seq OWNED BY public.partners.id;
+
+
+--
+-- Name: password_reset_tokens; Type: TABLE; Schema: public; Owner: neondb_owner
+--
+
+CREATE TABLE public.password_reset_tokens (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    token character varying(255) NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.password_reset_tokens OWNER TO neondb_owner;
+
+--
+-- Name: password_reset_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: neondb_owner
+--
+
+CREATE SEQUENCE public.password_reset_tokens_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.password_reset_tokens_id_seq OWNER TO neondb_owner;
+
+--
+-- Name: password_reset_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neondb_owner
+--
+
+ALTER SEQUENCE public.password_reset_tokens_id_seq OWNED BY public.password_reset_tokens.id;
 
 
 --
@@ -1140,6 +1178,13 @@ ALTER TABLE ONLY public.partners ALTER COLUMN id SET DEFAULT nextval('public.par
 
 
 --
+-- Name: password_reset_tokens id; Type: DEFAULT; Schema: public; Owner: neondb_owner
+--
+
+ALTER TABLE ONLY public.password_reset_tokens ALTER COLUMN id SET DEFAULT nextval('public.password_reset_tokens_id_seq'::regclass);
+
+
+--
 -- Name: payment_methods id; Type: DEFAULT; Schema: public; Owner: neondb_owner
 --
 
@@ -1258,7 +1303,7 @@ COPY public.budget_negotiations (id, project_id, proposed_by, original_price, pr
 --
 
 COPY public.client_billing_info (id, user_id, legal_name, document_type, document_number, address, city, country, phone, is_default, created_at, updated_at, client_type, department, email, observations) FROM stdin;
-1	2	Jacinto Ortiz	CI	000002626	Barrio Residencial	Ciudad del Este	Paraguay	+595985990044	t	2025-09-30 03:19:11.00619	2025-10-11 22:15:03.185	consumidor_final	Itapúa	alfagroupstoreok@gmail.com	
+1	2	Jacinto Ortiz	CI	000002626	Barrio Residencial – Carlos A. López – Itapúa – Paraguay  	Ciudad del Este	Paraguay	+595985990044	t	2025-09-30 03:19:11.00619	2025-10-16 22:42:54.645	consumidor_final	Itapúa	alfagroupstoreok@gmail.com	
 \.
 
 
@@ -1267,9 +1312,9 @@ COPY public.client_billing_info (id, user_id, legal_name, document_type, documen
 --
 
 COPY public.company_billing_info (id, company_name, ruc, address, city, country, phone, email, website, tax_regime, economic_activity, logo_url, is_active, created_at, updated_at, timbrado_number, vigencia_timbrado, vencimiento_timbrado, boleta_prefix, boleta_sequence, titular_name, department) FROM stdin;
-3	SoftwarePar S.R.L.	80001234-5	Barrio Residencial	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		f	2025-09-30 02:58:46.531403	2025-10-15 22:21:16.374	15378596	01/10/2025	30/09/2027	001-001	1	Jhoni Fabián Benítez De La Cruz	Itapúa
-2	SoftwarePar	4220058-0	Barrio Residencial	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		f	2025-09-30 02:58:37.188036	2025-10-15 22:21:16.374	7777777	01/10/2025	30/09/2027	001-001	1	Jhoni Fabián Benítez De La Cruz	Itapúa
-1	SoftwarePar	4220058-0	Barrio Residencial	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		t	2025-09-30 02:51:18.953684	2025-10-16 12:47:33.652575	556454566	01/10/2025	30/09/2027	001-001	1	Jhoni Fabián Benítez De La Cruz	Itapúa
+3	SoftwarePar S.R.L.	80001234-5	Barrio Residencial	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		f	2025-09-30 02:58:46.531403	2025-10-16 22:57:14.11	15378596	01/10/2025	30/09/2027	001-001	1	Jhoni Fabián Benítez De La Cruz	Itapúa
+2	SoftwarePar	4220058-0	Barrio Residencial	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		f	2025-09-30 02:58:37.188036	2025-10-16 22:57:14.11	7777777	01/10/2025	30/09/2027	001-001	1	Jhoni Fabián Benítez De La Cruz	Itapúa
+1	SoftwarePar	4220058-0	Barrio Residencial – Carlos A. López – Itapúa – Paraguay 	Carlos Antonio López	Paraguay	+595 985 990 046	softwarepar.lat@gmail.com	https://softwarepar.lat	Pequeño Contribuyente - RESIMPLE	Desarrollo de software y servicios informáticos		t	2025-09-30 02:51:18.953684	2025-10-16 22:57:14.561	151515151	01/10/2025	30/09/2027	001-001	3	Jhoni Fabián Benítez De La Cruz	Itapúa
 \.
 
 
@@ -1278,17 +1323,18 @@ COPY public.company_billing_info (id, company_name, ruc, address, city, country,
 --
 
 COPY public.exchange_rate_config (id, usd_to_guarani, updated_by, is_active, created_at, updated_at) FROM stdin;
-1	7300.00	1	f	2025-09-30 15:52:54.875118	2025-10-11 23:20:16.893
-2	7200.00	1	f	2025-09-30 15:53:34.668394	2025-10-11 23:20:16.893
-3	7300.00	1	f	2025-10-01 00:51:06.648818	2025-10-11 23:20:16.893
-4	7.06	1	f	2025-10-11 22:40:02.85167	2025-10-11 23:20:16.893
-5	7.06	1	f	2025-10-11 22:41:08.5435	2025-10-11 23:20:16.893
-6	7.06	1	f	2025-10-11 22:41:25.8804	2025-10-11 23:20:16.893
-7	7.06	1	f	2025-10-11 22:41:38.616533	2025-10-11 23:20:16.893
-8	7060.00	1	f	2025-10-11 22:41:46.744348	2025-10-11 23:20:16.893
-9	7300.00	1	f	2025-10-11 22:52:06.802565	2025-10-11 23:20:16.893
-10	7060.00	1	f	2025-10-11 22:56:29.278781	2025-10-11 23:20:16.893
-11	7300.00	1	t	2025-10-11 23:20:17.365582	2025-10-11 23:20:17.365582
+1	7300.00	1	f	2025-09-30 15:52:54.875118	2025-10-16 23:28:08.192
+2	7200.00	1	f	2025-09-30 15:53:34.668394	2025-10-16 23:28:08.192
+3	7300.00	1	f	2025-10-01 00:51:06.648818	2025-10-16 23:28:08.192
+4	7.06	1	f	2025-10-11 22:40:02.85167	2025-10-16 23:28:08.192
+5	7.06	1	f	2025-10-11 22:41:08.5435	2025-10-16 23:28:08.192
+6	7.06	1	f	2025-10-11 22:41:25.8804	2025-10-16 23:28:08.192
+7	7.06	1	f	2025-10-11 22:41:38.616533	2025-10-16 23:28:08.192
+8	7060.00	1	f	2025-10-11 22:41:46.744348	2025-10-16 23:28:08.192
+9	7300.00	1	f	2025-10-11 22:52:06.802565	2025-10-16 23:28:08.192
+10	7060.00	1	f	2025-10-11 22:56:29.278781	2025-10-16 23:28:08.192
+11	7300.00	1	f	2025-10-11 23:20:17.365582	2025-10-16 23:28:08.192
+12	7100.00	1	t	2025-10-16 23:28:08.713638	2025-10-16 23:28:08.713638
 \.
 
 
@@ -1297,6 +1343,8 @@ COPY public.exchange_rate_config (id, usd_to_guarani, updated_by, is_active, cre
 --
 
 COPY public.invoices (id, invoice_number, project_id, client_id, amount, status, due_date, paid_date, description, tax_amount, discount_amount, total_amount, payment_method_id, notes, created_at, updated_at, currency, payment_stage_id, exchange_rate_used, sifen_cdc, sifen_protocolo, sifen_estado, sifen_xml, sifen_fecha_envio, sifen_mensaje_error, sifen_qr) FROM stdin;
+51	001-001-0000001	28	2	250.00	paid	2025-10-16 22:34:01.618	2025-10-16 22:34:01.618	\N	0.00	0.00	250.00	\N	\N	2025-10-16 22:34:01.690724	2025-10-16 22:34:03.62	USD	85	7300.00	01042200580001001000000112025101610654043009	FS-14-OK	aceptado	<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<rDE xmlns="http://ekuatia.set.gov.py/sifen/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ekuatia.set.gov.py/sifen/xsd siRecepDE_v150.xsd">\n  <dVerFor>150</dVerFor>\n  <DE Id="01042200580001001000000112025101610654043009">\n    <dDVId>9</dDVId>\n    <dFecFirma>2025-10-16T19:34:03</dFecFirma>\n    <dSisFact>1</dSisFact>\n    <gOpeDE>\n      <iTipEmi>1</iTipEmi>\n      <dDesTipEmi>Normal</dDesTipEmi>\n      <dCodSeg>065404300</dCodSeg>\n      <dInfoEmi>Tipo de cambio: 1 USD = 7.300 PYG. Monto original: USD 250.00</dInfoEmi>\n    </gOpeDE>\n    <gTimb>\n      <iTiDE>1</iTiDE>\n      <dDesTiDE>Factura electrónica</dDesTiDE>\n      <dNumTim>04220058</dNumTim>\n      <dEst>001</dEst>\n      <dPunExp>001</dPunExp>\n      <dNumDoc>0000001</dNumDoc>\n      <dFeIniT>2025-10-13</dFeIniT>\n    </gTimb>\n    <gDatGralOpe>\n      <dFeEmiDE>2025-10-16T22:34:02</dFeEmiDE>\n      <gOpeCom>\n        <iTipTra>2</iTipTra>\n        <dDesTipTra>Prestación de servicios</dDesTipTra>\n        <iTImp>1</iTImp>\n        <dDesTImp>IVA</dDesTImp>\n        <cMoneOpe>PYG</cMoneOpe>\n        <dDesMoneOpe>Guarani</dDesMoneOpe>\n      </gOpeCom>\n      <gEmis>\n        <dRucEm>4220058</dRucEm>\n        <dDVEmi>0</dDVEmi>\n        <iTipCont>1</iTipCont>\n        <cTipReg>6</cTipReg>\n        <dNomEmi>DE generado en ambiente de prueba - sin valor comercial ni fiscal</dNomEmi>\n        <dNomFanEmi>SoftwarePar</dNomFanEmi>\n        <dDirEmi>Barrio Residencial – a tres cuadras de la Municipalidad</dDirEmi>\n        <dNumCas>0</dNumCas>\n        <cDepEmi>8</cDepEmi>\n        <dDesDepEmi>ITAPUA</dDesDepEmi>\n        <cDisEmi>107</cDisEmi>\n        <dDesDisEmi>CARLOS A. LOPEZ</dDesDisEmi>\n        <cCiuEmi>1456</cCiuEmi>\n        <dDesCiuEmi>CARLOS A. LOPEZ</dDesCiuEmi>\n        <dTelEmi>+595985990046</dTelEmi>\n        <dEmailE>softwarepar.lat@gmail.com</dEmailE>\n        <dDenSuc>Matriz</dDenSuc>\n        <gActEco>\n          <cActEco>62090</cActEco>\n          <dDesActEco> OTRAS ACTIVIDADES DE TECNOLOGÍA DE LA INFORMACIÓN Y SERVICIOS INFORMÁTICOS</dDesActEco>\n        </gActEco>\n        <gRespDE>\n          <iTipIDRespDE>1</iTipIDRespDE>\n          <dDTipIDRespDE>Cédula paraguaya</dDTipIDRespDE>\n          <dNumIDRespDE>12345678</dNumIDRespDE>\n          <dNomRespDE>SoftwarePar Admin</dNomRespDE>\n          <dCarRespDE>Administrador</dCarRespDE>\n        </gRespDE>\n      </gEmis>\n      <gDatRec>\n        <iNatRec>2</iNatRec>\n        <iTiOpe>2</iTiOpe>\n        <cPaisRec>PRY</cPaisRec>\n        <dDesPaisRe>Paraguay</dDesPaisRe>\n        <iTipIDRec>1</iTipIDRec>\n        <dDTipIDRec>Cédula paraguaya</dDTipIDRec>\n        <dNumIDRec>000002626</dNumIDRec>\n        <dNomRec>Jacinto Ortiz</dNomRec>\n        <dDirRec>Barrio Residencial</dDirRec>\n        <dNumCasRec>0</dNumCasRec>\n        <cDepRec>1</cDepRec>\n        <dDesDepRec>CAPITAL</dDesDepRec>\n        <cDisRec>1</cDisRec>\n        <dDesDisRec>ASUNCION (DISTRITO)</dDesDisRec>\n        <cCiuRec>1</cCiuRec>\n        <dDesCiuRec>ASUNCION (DISTRITO)</dDesCiuRec>\n        <dTelRec>+595985990044</dTelRec>\n        <dCelRec>+595985990044</dCelRec>\n        <dEmailRec>alfagroupstoreok@gmail.com</dEmailRec>\n        <dCodCliente>002</dCodCliente>\n      </gDatRec>\n    </gDatGralOpe>\n    <gDtipDE>\n      <gCamFE>\n        <iIndPres>2</iIndPres>\n        <dDesIndPres>Operación electrónica</dDesIndPres>\n      </gCamFE>\n      <gCamCond>\n        <iCondOpe>1</iCondOpe>\n        <dDCondOpe>Contado</dDCondOpe>\n        <gPaConEIni>\n          <iTiPago>9</iTiPago>\n          <dDesTiPag>Vale</dDesTiPag>\n          <dMonTiPag>1825000.0000</dMonTiPag>\n          <cMoneTiPag>PYG</cMoneTiPag>\n          <dDMoneTiPag>Guarani</dDMoneTiPag>\n        </gPaConEIni>\n      </gCamCond>\n      <gCamItem>\n        <dCodInt/>\n        <dDesProSer>Anticipo - Inicio del Proyecto (Pago 1 de 4) - FrigoMgrande</dDesProSer>\n        <cUniMed>77</cUniMed>\n        <dDesUniMed>UNI</dDesUniMed>\n        <dCantProSer>1</dCantProSer>\n        <gValorItem>\n          <dPUniProSer>1825000</dPUniProSer>\n          <dTotBruOpeItem>1825000</dTotBruOpeItem>\n          <gValorRestaItem>\n            <dDescItem>0</dDescItem>\n            <dDescGloItem>0</dDescGloItem>\n            <dAntPreUniIt>0</dAntPreUniIt>\n            <dAntGloPreUniIt>0</dAntGloPreUniIt>\n            <dTotOpeItem>1825000</dTotOpeItem>\n          </gValorRestaItem>\n        </gValorItem>\n        <gCamIVA>\n          <iAfecIVA>3</iAfecIVA>\n          <dDesAfecIVA>Exento</dDesAfecIVA>\n          <dPropIVA>0</dPropIVA>\n          <dTasaIVA>0</dTasaIVA>\n          <dBasGravIVA>0</dBasGravIVA>\n          <dLiqIVAItem>0</dLiqIVAItem>\n          <dBasExe>0</dBasExe>\n        </gCamIVA>\n      </gCamItem>\n    </gDtipDE>\n    <gTotSub>\n      <dSubExe>1825000</dSubExe>\n      <dSubExo>0</dSubExo>\n      <dTotOpe>1825000</dTotOpe>\n      <dTotDesc>0</dTotDesc>\n      <dTotDescGlotem>0</dTotDescGlotem>\n      <dTotAntItem>0</dTotAntItem>\n      <dTotAnt>0</dTotAnt>\n      <dPorcDescTotal>0</dPorcDescTotal>\n      <dDescTotal>0</dDescTotal>\n      <dAnticipo>0</dAnticipo>\n      <dRedon>0</dRedon>\n      <dTotGralOpe>1825000</dTotGralOpe>\n    </gTotSub>\n  </DE>\n  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">\n    <SignedInfo>\n      <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>\n      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>\n      <Reference URI="#01042200580001001000000112025101610654043009">\n        <Transforms>\n          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>\n          <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>\n        </Transforms>\n        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>\n        <DigestValue>g7lamuqhZszn/4LUuiL/2BCGkcS5iHnxRjMbb8f7lVU=</DigestValue>\n      </Reference>\n    </SignedInfo>\n    <SignatureValue>W2BNVnR7MXhskmCU+rnMGAZlyLUxc9bhBJ1SmHGAj+86ZyYHRubIFZNS5vsz5CLn/rSTolVA8Rks&#xD;\nstsfeQE0RTkGNDEXIYJyx/oZdybG4uzvqLhZ1UWFvoSmH5Y/eIVEHhppjLt73+baijzY9JcKcOjg&#xD;\nK2o8/L0RJCZ69h8LbShjdbFI9M1SA2InosQzNK8yBSo7scUJRTPzDnBWeLHmw4cH1A/HwMTZg4HE&#xD;\njPSUNfvIuZmu+52yz01uw8+qkGGROcPNCPK7s0Ec7JpT3BQg2HkGNUNEDaA62bYLrOcKLKyIcTdi&#xD;\nGhkzodhYNj929pAm06syCBrQx82dun8YA0aZpw==</SignatureValue>\n    <KeyInfo>\n      <X509Data>\n        <X509Certificate>MIIDbDCCAlSgAwIBAgIEYYrC+zANBgkqhkiG9w0BAQsFADB4MQswCQYDVQQGEwJQWTEUMBIGA1UE&#xD;\nCAwLQUxUTyBQQVJBTkExGDAWBgNVBAcMD0NJVURBRCBERUwgRVNURTEQMA4GA1UECgwHVElQUyBT&#xD;\nQTETMBEGA1UECwwKREVTQVJST0xMTzESMBAGA1UEAwwJRkFDVFVSQVBJMB4XDTIxMTEwOTE4NTAz&#xD;\nNVoXDTIyMTEwOTE4NTAzNVoweDELMAkGA1UEBhMCUFkxFDASBgNVBAgMC0FMVE8gUEFSQU5BMRgw&#xD;\nFgYDVQQHDA9DSVVEQUQgREVMIEVTVEUxEDAOBgNVBAoMB1RJUFMgU0ExEzARBgNVBAsMCkRFU0FS&#xD;\nUk9MTE8xEjAQBgNVBAMMCUZBQ1RVUkFQSTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB&#xD;\nAMWUwZD/I4iNtm2XVy0BGYBQJ0GGRRTzmdwSJGgCXMYPnLhPpQMMy6gdFsIpPW8fHCa1jhsVuRCp&#xD;\njLbGGuqpBCLIVOHJxWb2mppJIa8fsTJBdgOz84vvqBWWMGmfb3HYx/s59GmsQIMnJ1vMW3x6LOjV&#xD;\n1m5HiXcJqgOh6fGlfex7EJ8QhB7CHJj5cbrQVj5e3rh7J2uXEeY8QBAG8+zaMKgGNxMmuirzhRWg&#xD;\nn+z9QN6pDh0RYjBO/uikgTccLpQdxlnYkK3i/eaKNdhrWEjBM/zrpH9FH7JqJNZgsk4kpZAS5g9M&#xD;\nHbfjLGE4BmskFYwFmhljJEeRiiFjVElVFsvlCT8CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAZMTd&#xD;\nURV42xA4kOApodsNP5psahbiO0T5674fXbZUYt/k4qLszScQvTTrtZkAmbs1UIHu06W4QNffrBOj&#xD;\nSwbMuNX096BEiQ1SKTdWBBM41qkb0r7TL3aYchfXjJvTsp4l2pnXF0hJ+hiDwBp0sa/qEi+TP7mp&#xD;\nB8BbDtr2IbwyQVqyEgdmNfF/Fz81lwQV/N94H/31Mx2OW7b9ULiHHi6IAxf2HIjVLZYHat3Y4Wm5&#xD;\nbLbsKDubW0DsWuWXh3L1myGIFJqGEvoP4cwz+o/su5cPaLewBIzsKFQoZVJygQN1zv0W2Ve73nln&#xD;\naIbxrFb8w/kXeZeYWeMYotIAZk9VhtheoQ==</X509Certificate>\n      </X509Data>\n    </KeyInfo>\n  </Signature>\n  <gCamFuFD>\n    <dCarQR>https://ekuatia.set.gov.py/consultas-test/qr?nVersion=150&amp;Id=01042200580001001000000112025101610654043009&amp;dFeEmiDE=323032352d31302d31365432323a33343a3032&amp;dNumIDRec=000002626&amp;dTotGralOpe=1825000&amp;dTotIVA=0&amp;cItems=1&amp;DigestValue=67376c616d7571685a737a6e2f344c5575694c2f324243476b63533569486e78526a4d62623866376c56553d&amp;IdCSC=1&amp;cHashQR=24897f14fd43254af2e369ef50f44cb3167b19aa66628d5279400fff01a22578</dCarQR>\n  </gCamFuFD>\n</rDE>	2025-10-16 22:34:03.62	Procesado correctamente	https://ekuatia.set.gov.py/consultas-test/qr?nVersion=150&Id=01042200580001001000000112025101610654043009&dFeEmiDE=323032352d31302d31365432323a33343a3032&dNumIDRec=000002626&dTotGralOpe=1825000&dTotIVA=0&cItems=1&DigestValue=67376c616d7571685a737a6e2f344c5575694c2f324243476b63533569486e78526a4d62623866376c56553d&IdCSC=1&cHashQR=24897f14fd43254af2e369ef50f44cb3167b19aa66628d5279400fff01a22578
+52	001-001-0000002	28	2	250.00	paid	2025-10-16 23:30:49.396	2025-10-16 23:30:49.396	\N	0.00	0.00	250.00	\N	\N	2025-10-16 23:30:49.471722	2025-10-16 23:30:50.792	USD	86	7100.00	01042200580001001000000212025101610657450160	FS-15-OK	aceptado	<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<rDE xmlns="http://ekuatia.set.gov.py/sifen/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ekuatia.set.gov.py/sifen/xsd siRecepDE_v150.xsd">\n  <dVerFor>150</dVerFor>\n  <DE Id="01042200580001001000000212025101610657450160">\n    <dDVId>0</dDVId>\n    <dFecFirma>2025-10-16T20:30:50</dFecFirma>\n    <dSisFact>1</dSisFact>\n    <gOpeDE>\n      <iTipEmi>1</iTipEmi>\n      <dDesTipEmi>Normal</dDesTipEmi>\n      <dCodSeg>065745016</dCodSeg>\n      <dInfoEmi>Tipo de cambio: 1 USD = 7.100 PYG. Monto original: USD 250.00</dInfoEmi>\n    </gOpeDE>\n    <gTimb>\n      <iTiDE>1</iTiDE>\n      <dDesTiDE>Factura electrónica</dDesTiDE>\n      <dNumTim>04220058</dNumTim>\n      <dEst>001</dEst>\n      <dPunExp>001</dPunExp>\n      <dNumDoc>0000002</dNumDoc>\n      <dFeIniT>2025-10-13</dFeIniT>\n    </gTimb>\n    <gDatGralOpe>\n      <dFeEmiDE>2025-10-16T23:30:49</dFeEmiDE>\n      <gOpeCom>\n        <iTipTra>2</iTipTra>\n        <dDesTipTra>Prestación de servicios</dDesTipTra>\n        <iTImp>1</iTImp>\n        <dDesTImp>IVA</dDesTImp>\n        <cMoneOpe>PYG</cMoneOpe>\n        <dDesMoneOpe>Guarani</dDesMoneOpe>\n      </gOpeCom>\n      <gEmis>\n        <dRucEm>4220058</dRucEm>\n        <dDVEmi>0</dDVEmi>\n        <iTipCont>1</iTipCont>\n        <cTipReg>6</cTipReg>\n        <dNomEmi>DE generado en ambiente de prueba - sin valor comercial ni fiscal</dNomEmi>\n        <dNomFanEmi>SoftwarePar</dNomFanEmi>\n        <dDirEmi>Barrio Residencial – a tres cuadras de la Municipalidad</dDirEmi>\n        <dNumCas>0</dNumCas>\n        <cDepEmi>8</cDepEmi>\n        <dDesDepEmi>ITAPUA</dDesDepEmi>\n        <cDisEmi>107</cDisEmi>\n        <dDesDisEmi>CARLOS A. LOPEZ</dDesDisEmi>\n        <cCiuEmi>1456</cCiuEmi>\n        <dDesCiuEmi>CARLOS A. LOPEZ</dDesCiuEmi>\n        <dTelEmi>+595985990046</dTelEmi>\n        <dEmailE>softwarepar.lat@gmail.com</dEmailE>\n        <dDenSuc>Matriz</dDenSuc>\n        <gActEco>\n          <cActEco>62090</cActEco>\n          <dDesActEco> OTRAS ACTIVIDADES DE TECNOLOGÍA DE LA INFORMACIÓN Y SERVICIOS INFORMÁTICOS</dDesActEco>\n        </gActEco>\n        <gRespDE>\n          <iTipIDRespDE>1</iTipIDRespDE>\n          <dDTipIDRespDE>Cédula paraguaya</dDTipIDRespDE>\n          <dNumIDRespDE>12345678</dNumIDRespDE>\n          <dNomRespDE>SoftwarePar Admin</dNomRespDE>\n          <dCarRespDE>Administrador</dCarRespDE>\n        </gRespDE>\n      </gEmis>\n      <gDatRec>\n        <iNatRec>2</iNatRec>\n        <iTiOpe>2</iTiOpe>\n        <cPaisRec>PRY</cPaisRec>\n        <dDesPaisRe>Paraguay</dDesPaisRe>\n        <iTipIDRec>1</iTipIDRec>\n        <dDTipIDRec>Cédula paraguaya</dDTipIDRec>\n        <dNumIDRec>000002626</dNumIDRec>\n        <dNomRec>Jacinto Ortiz</dNomRec>\n        <dDirRec>Barrio Residencial – Carlos A. López – Itapúa – Paraguay</dDirRec>\n        <dNumCasRec>0</dNumCasRec>\n        <cDepRec>1</cDepRec>\n        <dDesDepRec>CAPITAL</dDesDepRec>\n        <cDisRec>1</cDisRec>\n        <dDesDisRec>ASUNCION (DISTRITO)</dDesDisRec>\n        <cCiuRec>1</cCiuRec>\n        <dDesCiuRec>ASUNCION (DISTRITO)</dDesCiuRec>\n        <dTelRec>+595985990044</dTelRec>\n        <dCelRec>+595985990044</dCelRec>\n        <dEmailRec>alfagroupstoreok@gmail.com</dEmailRec>\n        <dCodCliente>002</dCodCliente>\n      </gDatRec>\n    </gDatGralOpe>\n    <gDtipDE>\n      <gCamFE>\n        <iIndPres>2</iIndPres>\n        <dDesIndPres>Operación electrónica</dDesIndPres>\n      </gCamFE>\n      <gCamCond>\n        <iCondOpe>1</iCondOpe>\n        <dDCondOpe>Contado</dDCondOpe>\n        <gPaConEIni>\n          <iTiPago>9</iTiPago>\n          <dDesTiPag>Vale</dDesTiPag>\n          <dMonTiPag>1775000.0000</dMonTiPag>\n          <cMoneTiPag>PYG</cMoneTiPag>\n          <dDMoneTiPag>Guarani</dDMoneTiPag>\n        </gPaConEIni>\n      </gCamCond>\n      <gCamItem>\n        <dCodInt/>\n        <dDesProSer>Avance 50% - Desarrollo (Pago 2 de 4) - FrigoMgrande</dDesProSer>\n        <cUniMed>77</cUniMed>\n        <dDesUniMed>UNI</dDesUniMed>\n        <dCantProSer>1</dCantProSer>\n        <gValorItem>\n          <dPUniProSer>1775000</dPUniProSer>\n          <dTotBruOpeItem>1775000</dTotBruOpeItem>\n          <gValorRestaItem>\n            <dDescItem>0</dDescItem>\n            <dDescGloItem>0</dDescGloItem>\n            <dAntPreUniIt>0</dAntPreUniIt>\n            <dAntGloPreUniIt>0</dAntGloPreUniIt>\n            <dTotOpeItem>1775000</dTotOpeItem>\n          </gValorRestaItem>\n        </gValorItem>\n        <gCamIVA>\n          <iAfecIVA>3</iAfecIVA>\n          <dDesAfecIVA>Exento</dDesAfecIVA>\n          <dPropIVA>0</dPropIVA>\n          <dTasaIVA>0</dTasaIVA>\n          <dBasGravIVA>0</dBasGravIVA>\n          <dLiqIVAItem>0</dLiqIVAItem>\n          <dBasExe>0</dBasExe>\n        </gCamIVA>\n      </gCamItem>\n    </gDtipDE>\n    <gTotSub>\n      <dSubExe>1775000</dSubExe>\n      <dSubExo>0</dSubExo>\n      <dTotOpe>1775000</dTotOpe>\n      <dTotDesc>0</dTotDesc>\n      <dTotDescGlotem>0</dTotDescGlotem>\n      <dTotAntItem>0</dTotAntItem>\n      <dTotAnt>0</dTotAnt>\n      <dPorcDescTotal>0</dPorcDescTotal>\n      <dDescTotal>0</dDescTotal>\n      <dAnticipo>0</dAnticipo>\n      <dRedon>0</dRedon>\n      <dTotGralOpe>1775000</dTotGralOpe>\n    </gTotSub>\n  </DE>\n  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">\n    <SignedInfo>\n      <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>\n      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>\n      <Reference URI="#01042200580001001000000212025101610657450160">\n        <Transforms>\n          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>\n          <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>\n        </Transforms>\n        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>\n        <DigestValue>UDztjjRKfZUjmE/1MqrgxQgf5JR9s8AJ0U/GwQ29Agk=</DigestValue>\n      </Reference>\n    </SignedInfo>\n    <SignatureValue>FNAWcYv6Cj0qQ7ooI5j59gqiVwcJxVvm4VLra6gFCeH/WPhKxXyAIPM+6Amvb1p7SrlJjTjewfSw&#xD;\nVyeQ9x/FeMynC/5PBldhVS/kQi/06rISLc0ZORGqJecKgMlEB89yl+eDlJUSMEiLL9vjcH2b3CzY&#xD;\no3VL1FWOFSG3awnSMmz8lCRIsOijGV475kKWhgMEnbDkMBw8vN/ag7teW92bzrKyNnE1qXkN4n3l&#xD;\nqNATySmOqU9AY0c47fxRZRq2SwKny+VGl3HMhVhJzhfXjSS0JVINuIdM5+zcb9vbXLnI9leQs+c4&#xD;\nbvjajAEqtch4Pr0hwPmMhRXtZEmJAovfIjSvzQ==</SignatureValue>\n    <KeyInfo>\n      <X509Data>\n        <X509Certificate>MIIDbDCCAlSgAwIBAgIEYYrC+zANBgkqhkiG9w0BAQsFADB4MQswCQYDVQQGEwJQWTEUMBIGA1UE&#xD;\nCAwLQUxUTyBQQVJBTkExGDAWBgNVBAcMD0NJVURBRCBERUwgRVNURTEQMA4GA1UECgwHVElQUyBT&#xD;\nQTETMBEGA1UECwwKREVTQVJST0xMTzESMBAGA1UEAwwJRkFDVFVSQVBJMB4XDTIxMTEwOTE4NTAz&#xD;\nNVoXDTIyMTEwOTE4NTAzNVoweDELMAkGA1UEBhMCUFkxFDASBgNVBAgMC0FMVE8gUEFSQU5BMRgw&#xD;\nFgYDVQQHDA9DSVVEQUQgREVMIEVTVEUxEDAOBgNVBAoMB1RJUFMgU0ExEzARBgNVBAsMCkRFU0FS&#xD;\nUk9MTE8xEjAQBgNVBAMMCUZBQ1RVUkFQSTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB&#xD;\nAMWUwZD/I4iNtm2XVy0BGYBQJ0GGRRTzmdwSJGgCXMYPnLhPpQMMy6gdFsIpPW8fHCa1jhsVuRCp&#xD;\njLbGGuqpBCLIVOHJxWb2mppJIa8fsTJBdgOz84vvqBWWMGmfb3HYx/s59GmsQIMnJ1vMW3x6LOjV&#xD;\n1m5HiXcJqgOh6fGlfex7EJ8QhB7CHJj5cbrQVj5e3rh7J2uXEeY8QBAG8+zaMKgGNxMmuirzhRWg&#xD;\nn+z9QN6pDh0RYjBO/uikgTccLpQdxlnYkK3i/eaKNdhrWEjBM/zrpH9FH7JqJNZgsk4kpZAS5g9M&#xD;\nHbfjLGE4BmskFYwFmhljJEeRiiFjVElVFsvlCT8CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAZMTd&#xD;\nURV42xA4kOApodsNP5psahbiO0T5674fXbZUYt/k4qLszScQvTTrtZkAmbs1UIHu06W4QNffrBOj&#xD;\nSwbMuNX096BEiQ1SKTdWBBM41qkb0r7TL3aYchfXjJvTsp4l2pnXF0hJ+hiDwBp0sa/qEi+TP7mp&#xD;\nB8BbDtr2IbwyQVqyEgdmNfF/Fz81lwQV/N94H/31Mx2OW7b9ULiHHi6IAxf2HIjVLZYHat3Y4Wm5&#xD;\nbLbsKDubW0DsWuWXh3L1myGIFJqGEvoP4cwz+o/su5cPaLewBIzsKFQoZVJygQN1zv0W2Ve73nln&#xD;\naIbxrFb8w/kXeZeYWeMYotIAZk9VhtheoQ==</X509Certificate>\n      </X509Data>\n    </KeyInfo>\n  </Signature>\n  <gCamFuFD>\n    <dCarQR>https://ekuatia.set.gov.py/consultas-test/qr?nVersion=150&amp;Id=01042200580001001000000212025101610657450160&amp;dFeEmiDE=323032352d31302d31365432333a33303a3439&amp;dNumIDRec=000002626&amp;dTotGralOpe=1775000&amp;dTotIVA=0&amp;cItems=1&amp;DigestValue=55447a746a6a524b665a556a6d452f314d71726778516766354a52397338414a30552f477751323941676b3d&amp;IdCSC=1&amp;cHashQR=c6cf334bdf4ce126fa940a6278423c132726069682d85769bbc7188b1bd82568</dCarQR>\n  </gCamFuFD>\n</rDE>	2025-10-16 23:30:50.792	Procesado correctamente	https://ekuatia.set.gov.py/consultas-test/qr?nVersion=150&Id=01042200580001001000000212025101610657450160&dFeEmiDE=323032352d31302d31365432333a33303a3439&dNumIDRec=000002626&dTotGralOpe=1775000&dTotIVA=0&cItems=1&DigestValue=55447a746a6a524b665a556a6d452f314d71726778516766354a52397338414a30552f477751323941676b3d&IdCSC=1&cHashQR=c6cf334bdf4ce126fa940a6278423c132726069682d85769bbc7188b1bd82568
 \.
 
 
@@ -1394,6 +1442,7 @@ COPY public.notifications (id, user_id, title, message, type, is_read, created_a
 87	2	✅ Proyecto Creado Exitosamente	Tu proyecto "Barbershop" ha sido creado y está siendo revisado	success	f	2025-10-13 13:52:02.393137
 88	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Anticipo - Inicio del Proyecto" mediante Mango (TU FINANCIERA). Comprobante adjunto: SoftwarePar_Boleta_RESIMPLE_INV-STAGE-12-26.pdf. Requiere verificación.	warning	f	2025-10-13 13:53:17.853019
 89	2	✅ Pago Aprobado	Tu pago para la etapa "Anticipo - Inicio del Proyecto" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-13 13:53:48.471558
+169	1	🚀 Nuevo Proyecto Creado	Cliente ha creado el proyecto "FrigoMgrande"	info	f	2025-10-16 22:12:21.652321
 90	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Avance 50% - Desarrollo" mediante Mango (TU FINANCIERA). Comprobante adjunto: test.pdf. Requiere verificación.	warning	f	2025-10-13 14:04:37.526987
 91	2	✅ Pago Aprobado	Tu pago para la etapa "Avance 50% - Desarrollo" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-13 14:04:58.61289
 92	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Pre-entrega - 90% Completado" mediante Mango (TU FINANCIERA). Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-13 14:11:40.573681
@@ -1433,6 +1482,7 @@ COPY public.notifications (id, user_id, title, message, type, is_read, created_a
 126	2	✅ Pago Aprobado	Tu pago para la etapa "Entrega Final" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-14 09:26:34.848457
 127	1	🚀 Nuevo Proyecto Creado	Cliente ha creado el proyecto "FrigoMgrande"	info	f	2025-10-14 09:33:55.082564
 128	2	✅ Proyecto Creado Exitosamente	Tu proyecto "FrigoMgrande" ha sido creado y está siendo revisado	success	f	2025-10-14 09:33:57.948028
+170	2	✅ Proyecto Creado Exitosamente	Tu proyecto "FrigoMgrande" ha sido creado y está siendo revisado	success	f	2025-10-16 22:12:24.593247
 129	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Anticipo - Inicio del Proyecto" mediante Ueno Bank. Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-14 09:34:39.165296
 130	2	✅ Pago Aprobado	Tu pago para la etapa "Anticipo - Inicio del Proyecto" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-14 09:34:57.818171
 131	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Avance 50% - Desarrollo" mediante Ueno Bank. Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-14 09:40:36.797084
@@ -1473,6 +1523,18 @@ COPY public.notifications (id, user_id, title, message, type, is_read, created_a
 166	2	✅ Pago Aprobado	Tu pago para la etapa "Avance 50% - Desarrollo" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-15 14:19:31.974644
 167	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Pre-entrega - 90% Completado" mediante Ueno Bank. Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-15 14:23:13.807737
 168	2	✅ Pago Aprobado	Tu pago para la etapa "Pre-entrega - 90% Completado" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-15 14:48:19.218459
+171	1	🚀 Nuevo Proyecto Creado	Cliente ha creado el proyecto "FrigoMgrande"	info	f	2025-10-16 22:27:33.797048
+172	2	✅ Proyecto Creado Exitosamente	Tu proyecto "FrigoMgrande" ha sido creado y está siendo revisado	success	f	2025-10-16 22:27:37.180992
+173	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Anticipo - Inicio del Proyecto" mediante Mango (TU FINANCIERA). Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-16 22:28:52.637902
+174	1	🚀 Nuevo Proyecto Creado	Cliente ha creado el proyecto "FrigoMgrande"	info	f	2025-10-16 22:31:54.19637
+175	2	✅ Proyecto Creado Exitosamente	Tu proyecto "FrigoMgrande" ha sido creado y está siendo revisado	success	f	2025-10-16 22:31:56.718905
+176	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Anticipo - Inicio del Proyecto" mediante Ueno Bank. Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-16 22:33:26.400542
+177	2	✅ Pago Aprobado	Tu pago para la etapa "Anticipo - Inicio del Proyecto" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-16 22:34:01.098872
+178	1	💬 Nuevo Mensaje	Cliente te ha enviado un mensaje en "FrigoMgrande"	info	f	2025-10-16 22:46:10.876792
+179	2	💬 Nuevo Mensaje	Administrador SoftwarePar te ha enviado un mensaje en "FrigoMgrande"	info	f	2025-10-16 22:46:21.595433
+180	2	💬 Nuevo Mensaje	Administrador SoftwarePar te ha enviado un mensaje en "FrigoMgrande"	info	f	2025-10-16 22:46:47.330548
+181	1	📋 Comprobante de Pago Recibido	El cliente Cliente envió comprobante de pago para "Avance 50% - Desarrollo" mediante Ueno Bank. Sin comprobante adjunto. Requiere verificación.	warning	f	2025-10-16 23:29:51.174725
+182	2	✅ Pago Aprobado	Tu pago para la etapa "Avance 50% - Desarrollo" ha sido verificado y aprobado. ¡Continuamos con el desarrollo!	success	f	2025-10-16 23:30:48.886559
 \.
 
 
@@ -1481,6 +1543,15 @@ COPY public.notifications (id, user_id, title, message, type, is_read, created_a
 --
 
 COPY public.partners (id, user_id, referral_code, commission_rate, total_earnings, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: password_reset_tokens; Type: TABLE DATA; Schema: public; Owner: neondb_owner
+--
+
+COPY public.password_reset_tokens (id, user_id, token, expires_at, used, created_at) FROM stdin;
+1	2	6ec92e042b5ebb6f264c3654752b01656001307db21dc030929befc3cf42acc6	2025-10-17 01:47:57.784	t	2025-10-17 00:47:57.85948
 \.
 
 
@@ -1497,6 +1568,10 @@ COPY public.payment_methods (id, user_id, type, is_default, is_active, created_a
 --
 
 COPY public.payment_stages (id, project_id, stage_name, stage_percentage, amount, required_progress, status, payment_link, paid_date, created_at, updated_at, payment_method, payment_data, proof_file_url, exchange_rate_used) FROM stdin;
+85	28	Anticipo - Inicio del Proyecto	25	250.00	0	paid	\N	2025-10-16 22:34:00.877	2025-10-16 22:32:46.348986	2025-10-16 22:34:00.878	Ueno Bank	{"method": "Ueno Bank", "fileInfo": null, "confirmedAt": "2025-10-16T22:33:26.032Z", "confirmedBy": 2}	\N	7300.00
+86	28	Avance 50% - Desarrollo	25	250.00	25	paid	\N	2025-10-16 23:30:48.663	2025-10-16 22:32:46.494651	2025-10-16 23:30:48.663	Ueno Bank	{"method": "Ueno Bank", "fileInfo": null, "confirmedAt": "2025-10-16T23:29:50.803Z", "confirmedBy": 2}	\N	7100.00
+87	28	Pre-entrega - 90% Completado	25	250.00	50	pending	\N	\N	2025-10-16 22:32:46.644128	2025-10-16 22:32:46.644128	\N	\N	\N	\N
+88	28	Entrega Final	25	250.00	75	pending	\N	\N	2025-10-16 22:32:46.790965	2025-10-16 22:32:46.790965	\N	\N	\N	\N
 \.
 
 
@@ -1534,6 +1609,9 @@ COPY public.project_files (id, project_id, file_name, file_url, file_type, uploa
 --
 
 COPY public.project_messages (id, project_id, user_id, message, created_at) FROM stdin;
+6	28	2	test\n	2025-10-16 22:46:10.439702
+7	28	1	test\n	2025-10-16 22:46:21.301311
+8	28	1	https://softwarepar.lat	2025-10-16 22:46:47.036398
 \.
 
 
@@ -1542,6 +1620,12 @@ COPY public.project_messages (id, project_id, user_id, message, created_at) FROM
 --
 
 COPY public.project_timeline (id, project_id, title, description, status, estimated_date, completed_at, created_at) FROM stdin;
+129	28	Desarrollo - Fase 1	Desarrollo de funcionalidades principales (50% del proyecto)	pending	\N	\N	2025-10-16 22:32:49.102769
+130	28	Desarrollo - Fase 2	Completar desarrollo y optimizaciones (90% del proyecto)	pending	\N	\N	2025-10-16 22:32:49.249793
+131	28	Testing y QA	Pruebas exhaustivas y control de calidad	pending	\N	\N	2025-10-16 22:32:49.39559
+132	28	Entrega Final	Entrega del proyecto completado y documentación	pending	\N	\N	2025-10-16 22:32:49.541925
+127	28	Análisis y Planificación	Análisis de requerimientos y planificación del proyecto	completed	\N	2025-10-16 23:29:31.543	2025-10-16 22:32:48.807236
+128	28	Diseño y Arquitectura	Diseño de la interfaz y arquitectura del sistema	completed	\N	2025-10-16 23:29:34.937	2025-10-16 22:32:48.956774
 \.
 
 
@@ -1550,6 +1634,7 @@ COPY public.project_timeline (id, project_id, title, description, status, estima
 --
 
 COPY public.projects (id, name, description, price, status, progress, client_id, partner_id, delivery_date, created_at, updated_at, start_date) FROM stdin;
+28	FrigoMgrande	pruba solicitud de proyecto	1000.00	in_progress	33	2	\N	2025-10-23 00:00:00	2025-10-16 22:31:53.605478	2025-10-16 23:29:34.076	2025-10-16 00:00:00
 \.
 
 
@@ -1598,9 +1683,9 @@ COPY public.transactions (id, invoice_id, payment_method_id, user_id, amount, cu
 --
 
 COPY public.users (id, email, password, full_name, role, is_active, created_at, updated_at) FROM stdin;
-1	softwarepar.lat@gmail.com	$2b$10$FuHFhTc0ctLQqAfTWnUk9e5fbbha/vx2AhragKYn6MRT5R4SM4336	Administrador SoftwarePar	admin	t	2025-08-26 22:32:54.933839	2025-09-29 13:32:43.081496
-2	alfagroupstoreok@gmail.com	$2b$10$Y/5bXzIAsvSOFyv1dfGrz.EUqzEWMqDcdpdVgefFjurbGWvGl7rnG	Cliente	client	t	2025-09-29 15:15:32.71422	2025-09-29 15:15:32.71422
 3	cliente.prueba@test.com	$2b$10$6nMuk.lGIr1.p4G2wV.giO2yNpOx55rL9wWBeAxKgHbVGBVLbToZ2	Cliente de Prueba	client	t	2025-09-29 17:04:14.806663	2025-09-29 17:04:14.806663
+1	softwarepar.lat@gmail.com	$2b$10$FuHFhTc0ctLQqAfTWnUk9e5fbbha/vx2AhragKYn6MRT5R4SM4336	Administrador SoftwarePar	admin	t	2025-08-26 22:32:54.933839	2025-10-16 23:55:25.087
+2	alfagroupstoreok@gmail.com	$2b$10$Zp8Tbta.Hx8odYD7eKmYtOdwgUCdCmbUw5/qGGp9Jo3SXdnxgRAx2	Cliente	client	t	2025-09-29 15:15:32.71422	2025-10-17 00:50:09.819
 \.
 
 
@@ -1651,21 +1736,21 @@ SELECT pg_catalog.setval('public.company_billing_info_id_seq', 3, true);
 -- Name: exchange_rate_config_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.exchange_rate_config_id_seq', 11, true);
+SELECT pg_catalog.setval('public.exchange_rate_config_id_seq', 12, true);
 
 
 --
 -- Name: invoices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.invoices_id_seq', 49, true);
+SELECT pg_catalog.setval('public.invoices_id_seq', 52, true);
 
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.notifications_id_seq', 168, true);
+SELECT pg_catalog.setval('public.notifications_id_seq', 182, true);
 
 
 --
@@ -1673,6 +1758,13 @@ SELECT pg_catalog.setval('public.notifications_id_seq', 168, true);
 --
 
 SELECT pg_catalog.setval('public.partners_id_seq', 1, false);
+
+
+--
+-- Name: password_reset_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
+--
+
+SELECT pg_catalog.setval('public.password_reset_tokens_id_seq', 1, true);
 
 
 --
@@ -1686,7 +1778,7 @@ SELECT pg_catalog.setval('public.payment_methods_id_seq', 1, false);
 -- Name: payment_stages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.payment_stages_id_seq', 80, true);
+SELECT pg_catalog.setval('public.payment_stages_id_seq', 88, true);
 
 
 --
@@ -1714,21 +1806,21 @@ SELECT pg_catalog.setval('public.project_files_id_seq', 1, false);
 -- Name: project_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.project_messages_id_seq', 5, true);
+SELECT pg_catalog.setval('public.project_messages_id_seq', 8, true);
 
 
 --
 -- Name: project_timeline_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.project_timeline_id_seq', 120, true);
+SELECT pg_catalog.setval('public.project_timeline_id_seq', 132, true);
 
 
 --
 -- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neondb_owner
 --
 
-SELECT pg_catalog.setval('public.projects_id_seq', 25, true);
+SELECT pg_catalog.setval('public.projects_id_seq', 28, true);
 
 
 --
@@ -1843,6 +1935,22 @@ ALTER TABLE ONLY public.partners
 
 ALTER TABLE ONLY public.partners
     ADD CONSTRAINT partners_referral_code_unique UNIQUE (referral_code);
+
+
+--
+-- Name: password_reset_tokens password_reset_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: neondb_owner
+--
+
+ALTER TABLE ONLY public.password_reset_tokens
+    ADD CONSTRAINT password_reset_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: password_reset_tokens password_reset_tokens_token_unique; Type: CONSTRAINT; Schema: public; Owner: neondb_owner
+--
+
+ALTER TABLE ONLY public.password_reset_tokens
+    ADD CONSTRAINT password_reset_tokens_token_unique UNIQUE (token);
 
 
 --
@@ -2061,6 +2169,14 @@ ALTER TABLE ONLY public.partners
 
 
 --
+-- Name: password_reset_tokens password_reset_tokens_user_id_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: neondb_owner
+--
+
+ALTER TABLE ONLY public.password_reset_tokens
+    ADD CONSTRAINT password_reset_tokens_user_id_users_id_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: payment_methods payment_methods_user_id_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: neondb_owner
 --
 
@@ -2238,5 +2354,5 @@ ALTER DEFAULT PRIVILEGES FOR ROLE cloud_admin IN SCHEMA public GRANT ALL ON TABL
 -- PostgreSQL database dump complete
 --
 
-\unrestrict F1hLJMteGZwch8JVwGqw3TEpJEcQPBh24vQtlfakeZ8qHQTHCSk2dl4tpRjAbOA
+\unrestrict W6NfRJlp5w6Zgqpl2CgWcNoPKUXdw3kXiagfjs3QaCiYyRsvCfkBnOWdztQloIy
 
